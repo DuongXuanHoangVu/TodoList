@@ -1,1 +1,67 @@
-(()=>{const t=document.querySelector.bind(document),n=document.querySelectorAll.bind(document),e=t(".btn"),i=t(".todo-list");let o=t('input[name="title"]'),l=t('input[name="description"]'),c=t('input[name="date"]'),a=n('input[name="priority"]');const u=[];o.focus(),e.onclick=function(){!function(){let t;a.forEach((n=>{n.checked&&(t=n.value)})),u.push({title:o.value,description:l.value,duaDate:c.value,priority:t})}(),function(){let t="";u.forEach(((n,e)=>{t+=`<li class="list-item">\n            <div class="item-info">\n                <h2>Title: ${n.title}</h2>\n                <p>Description: ${n.description}</p>\n                <p>Due Date: ${n.duaDate}</p>\n                <p>${1===n.priority?"Priority":"Not Priority"}</p>\n            </div>\n            <div class="item-btn">\n                <button class="btn btn-danger" onclick="handleDelete(${e})">Delete</button>\n                <button class="btn btn-primary" onclick="handleChangePriority(${e})">Change</button>\n            </div>\n        </li>`})),i.innerHTML=t}(),o.focus(),o.value="",l.value="",c.value=""}})();
+const $ = document.querySelector.bind(document)
+const $$ = document.querySelectorAll.bind(document)
+
+const addBtn = $('.btn')
+const todoList = $('.todo-list')
+
+let title = $('input[name="title"]')
+let description = $('input[name="description"]')
+let date = $('input[name="date"]')
+let priorities = $$('input[name="priority"]')
+const jobs = []
+
+title.focus()
+function getJob() {
+    let priority
+    priorities.forEach(element => {
+        if (element.checked) {
+            priority = parseInt(element.value)
+        }
+    });
+    jobs.push({
+        title: title.value,
+        description: description.value,
+        duaDate: date.value,
+        priority: priority
+    })
+    return jobs
+}
+
+function handleDelete(id) {
+    delete jobs[id]
+    renderJob()
+}
+
+function handleChangePriority (id) {
+    let job = jobs[id]
+    job.priority === 1 ? job.priority = 0 : job.priority = 1
+    renderJob()
+}
+
+function renderJob () {
+    let htmls = ''
+    jobs.forEach((job, index) => {
+        htmls += `<li class="list-item">
+            <div class="item-info">
+                <h2>Title: ${job.title}</h2>
+                <p>Description: ${job.description}</p>
+                <p>Due Date: ${job.duaDate}</p>
+                <p>${job.priority === 1 ? 'Priority' : 'Not Priority'}</p>
+            </div>
+            <div class="item-btn">
+                <button class="btn btn-delete" onclick="handleDelete(${index})">Delete</button>
+                <button class="btn btn-primary" onclick="handleChangePriority(${index})">Change</button>
+            </div>
+        </li>`
+    })
+    return todoList.innerHTML = htmls
+}
+ 
+addBtn.onclick = function () {
+    getJob()   
+    renderJob()
+    title.focus()
+    title.value = ''
+    description.value = ''
+    date.value = ''
+}

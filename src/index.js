@@ -48,15 +48,15 @@ function renderJob () {
                 <h2>Title: ${job.title}</h2>
                 <p>Description: ${job.description}</p>
                 <p>Due Date: ${job.duaDate}</p>
-                <p>${job.priority === 1 ? 'Priority' : 'Not Priority'}</p>
+                <p>${job.priority === true ? 'Priority' : 'Not Priority'}</p>
             </div>
             <div class="item-btn">
-                <button class="btn btn-danger" onclick="handleDelete(${index})">Delete</button>
+                <button class="btn btn-delete" onclick="handleDelete(${index})">Delete</button>
                 <button class="btn btn-primary" onclick="handleChangePriority(${index})">Change</button>
             </div>
         </li>`
     })
-     todoList.innerHTML = htmls
+    return todoList.innerHTML = htmls
 }
  
 addBtn.onclick = function () {
